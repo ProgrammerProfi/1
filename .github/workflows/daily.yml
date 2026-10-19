@@ -1,0 +1,41 @@
+name: daily-tasks
+on:
+  schedule:
+    - cron: "17 3 * * *"   # 06:17 МСК
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build site
+        run: python3 tools/build.py
+      - name: Commit
+        run: |
+          git config user.name "ege-bot"
+          git config user.email "ege-bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Новые задачи $(date -u +%F)"
+          git push
+      - name: Ping IndexNow (Яндекс, Bing)
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request
+          key = "3f9c2a7e5b1d4c8fa06e92b7d4c1e835"
+          base = "https://programmerprofi.github.io/1/"
+          urls = [u for u in open("tools/changed.txt").read().split() if u][:1000]
+          body = json.dumps({"host": "programmerprofi.github.io", "key": key,
+                             "keyLocation": base + key + ".txt", "urlList": urls}).encode()
+          for ep in ["https://yandex.com/indexnow", "https://api.indexnow.org/indexnow"]:
+              req = urllib.request.Request(ep, data=body, headers={"Content-Type": "application/json; charset=utf-8"})
+              try:
+                  print(ep, urllib.request.urlopen(req, timeout=30).status)
+              except Exception as e:
+                  print(ep, "error", e)
+          PY

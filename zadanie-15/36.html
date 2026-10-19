@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Задание 15 ЕГЭ по информатике №36: ДЕЛ, 23 и 6 — разбор и решение на Python</title><meta name="description" content="Обозначим через ДЕЛ(n, m) утверждение «натуральное число n делится без остатка на натуральное число m».Для какого наименьшего натурального числа A…">
+<link rel="canonical" href="https://programmerprofi.github.io/1/zadanie-15/36.html"><meta property="og:title" content="Задание 15 ЕГЭ по информатике №36: ДЕЛ, 23 и 6 — разбор и решение на Python"><meta property="og:description" content="Обозначим через ДЕЛ(n, m) утверждение «натуральное число n делится без остатка на натуральное число m».Для какого наименьшего натурального числа A…">
+<meta property="og:type" content="article"><meta property="og:url" content="https://programmerprofi.github.io/1/zadanie-15/36.html"><meta property="og:locale" content="ru_RU">
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--muted:#6b675f;--line:#e4e0d8;--card:#ffffff;--accent:#2f5bd3;--accent-fg:#fff;--code:#f3f1ec;--ok:#1f7a45;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--fg:#ecebe7;--muted:#a19d94;--line:#2c2b28;--card:#1c1c1a;--accent:#7a9bff;--accent-fg:#0d0d0c;--code:#22221f;--ok:#5fcf8c;--bad:#ff8a80}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.logo{font-weight:700;text-decoration:none;color:var(--fg)}
+.navbot{font-size:15px}
+h1{font-size:28px;line-height:1.25;margin:28px 0 8px}
+h2{font-size:21px;margin:32px 0 10px}
+.sub{color:var(--muted);margin:0 0 20px}
+.crumbs{font-size:14px;color:var(--muted);margin-top:18px}.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+pre,code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px}
+code{background:var(--code);padding:1px 5px;border-radius:5px}
+pre{position:relative;background:var(--code);padding:14px 16px;border-radius:10px;overflow-x:auto;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;display:block}pre:has(.copy) code{padding-top:22px}
+.formula{font-family:Georgia,"Times New Roman",serif;font-size:18px;padding:6px 0 6px 14px;border-left:3px solid var(--line)}
+.cta{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:16px 20px;margin:28px 0}
+.cta p{margin:0;flex:1 1 300px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;padding:10px 18px;border-radius:9px;border:0;font-size:16px;cursor:pointer}
+.check{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.check input,.check textarea{flex:1 1 220px;font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.res{margin-top:10px;font-weight:600}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+details summary{cursor:pointer;font-weight:600}
+ol.steps li{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:16px 0}
+.grid a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--fg)}
+.grid a b{display:block;font-size:19px;color:var(--accent)}.grid a span{color:var(--muted);font-size:14px}
+ul.tasks{list-style:none;padding:0;margin:0}ul.tasks li{border-bottom:1px solid var(--line);padding:9px 0}
+ul.tasks small{color:var(--muted)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:24px 0;font-size:15px}
+footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:14px}footer .wrap{padding-top:18px;padding-bottom:28px}
+.copy{position:absolute;top:8px;right:8px;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Quiz", "name": "Задание 15 ЕГЭ по информатике №36: ДЕЛ, 23 и 6 — разбор и решение на Python", "about": "Задание 15 ЕГЭ по информатике", "educationalLevel": "11 класс", "inLanguage": "ru", "datePublished": "2026-10-19", "hasPart": [{"@type": "Question", "name": "Обозначим через ДЕЛ(n, m) утверждение «натуральное число n делится без остатка на натуральное число m».Для какого наименьшего натурального числа A формулаДЕЛ(x, A) → (¬ДЕЛ(x, 23) → ДЕЛ(x, 6))тождественно истинна (то есть принимает значение 1 при любом натуральном значении переменной x)?", "acceptedAnswer": {"@type": "Answer", "text": "6"}}]}</script></head><body>
+<header><div class="wrap"><a class="logo" href="../">ЕГЭ информатика: разборы</a><a class="navbot" href="https://t.me/informtrainbot">Тренажёр в Telegram →</a></div></header>
+<main class="wrap"><div class="crumbs"><a href="../">Главная</a> / <a href="./">Задание 15</a> / задача 36</div>
+<h1>Задание 15 ЕГЭ по информатике: задача 36</h1>
+<p class="sub">Логические выражения: ДЕЛ и отрезки · добавлено 2026-10-19</p>
+<div class="card"><p>Обозначим через ДЕЛ(n, m) утверждение «натуральное число n делится без остатка на натуральное число m».</p><p>Для какого наименьшего натурального числа A формула</p><p class=formula>ДЕЛ(x, A) → (¬ДЕЛ(x, 23) → ДЕЛ(x, 6))</p><p>тождественно истинна (то есть принимает значение 1 при любом натуральном значении переменной x)?</p></div>
+<h2>Проверь себя</h2>
+<div class="check"><input id="in36" data-a="Ng==" placeholder="Твой ответ" autocomplete="off"><button class="btn" onclick="chk(36)">Проверить</button></div><div id="res36" class="res"></div>
+<div class="cta"><p>Хочешь такие задачи каждый день? Тренажёр в Telegram даёт задачи №15 и других номеров, сразу проверяет ответ и показывает, где ты проседаешь.</p><a class="btn" href="https://t.me/informtrainbot">Открыть бота</a></div>
+<h2>Разбор</h2>
+<details><summary>Показать решение</summary>
+<ol class="steps"><li>Решаем перебором: для каждого кандидата A проверяем формулу на большом отрезке x. Если нашёлся x, где формула ложна, A не подходит.</li><li>Импликацию p → q в Python пишем как <code>(not p) or q</code>, а ДЕЛ(x, m) — как <code>x % m == 0</code>.</li><li>Формула равносильна ¬ДЕЛ(x, A) ∨ ДЕЛ(x, 23) ∨ ДЕЛ(x, 6). Она должна быть истинна для каждого x, в том числе для x = A. Значит, A само должно делиться на 23 или на 6; тогда и все его кратные тоже. Наименьшее такое A — 6.</li><li>Почему хватает x до 5000: все делимости здесь периодичны с периодом НОК(A, 23, 6), и для подходящих A этот период укладывается в диапазон. Если сомневаешься, увеличь границу и убедись, что ответ не поменялся.</li><li>Ответ: <b>6</b>.</li></ol>
+<h2>Код решения на Python</h2>
+<pre><button class="copy" onclick="cp(this)">Копировать</button><code>def f(x, A):
+    return (x % A != 0) or (x % 23 == 0) or (x % 6 == 0)
+
+
+print(min(A for A in range(1, 2000) if all(f(x, A) for x in range(1, 5000))))
+</code></pre>
+<p>Программа печатает ответ, её можно вставить в любую IDE на экзамене как есть.</p>
+</details>
+<div class="pager"><a href="35.html">← Задача 35</a><a href="./">Все задачи №15</a><a href="37.html">Задача 37 →</a></div></main>
+<footer><div class="wrap">Задачи сгенерированы по образцу заданий ЕГЭ, ответы проверены запуском кода. Тренировка с проверкой и статистикой — в боте <a href="https://t.me/informtrainbot">@informtrainbot</a>.</div></footer>
+<script>
+function chk(id){var i=document.getElementById('in'+id),r=document.getElementById('res'+id);
+var n=function(s){return s.trim().split(/\n+/).map(function(l){return l.trim().split(/\s+/).join(' ')}).join('\n')};
+var a=decodeURIComponent(escape(atob(i.dataset.a)));
+if(n(i.value)===n(a)){r.textContent='Верно!';r.className='res ok'}else{r.textContent='Пока нет. Проверь разбор ниже.';r.className='res bad'}}
+function cp(b){var t=b.parentNode.querySelector('code').innerText;try{navigator.clipboard.writeText(t);b.textContent='Скопировано'}catch(e){}}
+</script></body></html>
