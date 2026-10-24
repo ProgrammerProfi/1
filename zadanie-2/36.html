@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Задание 2 ЕГЭ по информатике №36: F = ¬(¬z ∧ y) → (w → x), строки с F = 0 — разбор и решение на Python</title><meta name="description" content="Миша заполнял таблицу истинности логической функции FF = ¬(¬z ∧ y) → (w → x)но успел заполнить лишь фрагмент из трёх различных её строк, даже не указав,…">
+<link rel="canonical" href="https://programmerprofi.github.io/1/zadanie-2/36.html"><meta property="og:title" content="Задание 2 ЕГЭ по информатике №36: F = ¬(¬z ∧ y) → (w → x), строки с F = 0 — разбор и решение на Python"><meta property="og:description" content="Миша заполнял таблицу истинности логической функции FF = ¬(¬z ∧ y) → (w → x)но успел заполнить лишь фрагмент из трёх различных её строк, даже не указав,…">
+<meta property="og:type" content="article"><meta property="og:url" content="https://programmerprofi.github.io/1/zadanie-2/36.html"><meta property="og:locale" content="ru_RU">
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--muted:#6b675f;--line:#e4e0d8;--card:#ffffff;--accent:#2f5bd3;--accent-fg:#fff;--code:#f3f1ec;--ok:#1f7a45;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--fg:#ecebe7;--muted:#a19d94;--line:#2c2b28;--card:#1c1c1a;--accent:#7a9bff;--accent-fg:#0d0d0c;--code:#22221f;--ok:#5fcf8c;--bad:#ff8a80}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.logo{font-weight:700;text-decoration:none;color:var(--fg)}
+.navbot{font-size:15px}
+h1{font-size:28px;line-height:1.25;margin:28px 0 8px}
+h2{font-size:21px;margin:32px 0 10px}
+.sub{color:var(--muted);margin:0 0 20px}
+.crumbs{font-size:14px;color:var(--muted);margin-top:18px}.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+pre,code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px}
+code{background:var(--code);padding:1px 5px;border-radius:5px}
+pre{position:relative;background:var(--code);padding:14px 16px;border-radius:10px;overflow-x:auto;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;display:block}pre:has(.copy) code{padding-top:22px}
+.formula{font-family:Georgia,"Times New Roman",serif;font-size:18px;padding:6px 0 6px 14px;border-left:3px solid var(--line)}
+.cta{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:16px 20px;margin:28px 0}
+.cta p{margin:0;flex:1 1 300px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;padding:10px 18px;border-radius:9px;border:0;font-size:16px;cursor:pointer}
+.check{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.check input,.check textarea{flex:1 1 220px;font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.res{margin-top:10px;font-weight:600}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+details summary{cursor:pointer;font-weight:600}
+ol.steps li{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:16px 0}
+.grid a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--fg)}
+.grid a b{display:block;font-size:19px;color:var(--accent)}.grid a span{color:var(--muted);font-size:14px}
+ul.tasks{list-style:none;padding:0;margin:0}ul.tasks li{border-bottom:1px solid var(--line);padding:9px 0}
+ul.tasks small{color:var(--muted)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:24px 0;font-size:15px}
+footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:14px}footer .wrap{padding-top:18px;padding-bottom:28px}
+.tt-wrap{overflow-x:auto;margin:12px 0}table.tt{border-collapse:collapse}.tt th,.tt td{border:1px solid var(--line);padding:6px 12px;text-align:center;min-width:44px;height:36px}.tt th{font-size:14px;font-weight:600;color:var(--muted)}
+.copy{position:absolute;top:8px;right:8px;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Quiz", "name": "Задание 2 ЕГЭ по информатике №36: F = ¬(¬z ∧ y) → (w → x), строки с F = 0 — разбор и решение на Python", "about": "Задание 2 ЕГЭ по информатике", "educationalLevel": "11 класс", "inLanguage": "ru", "datePublished": "2026-10-19", "hasPart": [{"@type": "Question", "name": "Миша заполнял таблицу истинности логической функции FF = ¬(¬z ∧ y) → (w → x)но успел заполнить лишь фрагмент из трёх различных её строк, даже не указав, какому столбцу таблицы соответствует каждая из переменных x, y, z, w. Пустые клетки — значения, которые Миша не вписал.Перем. 1Перем. 2Перем. 3Пере", "acceptedAnswer": {"@type": "Answer", "text": "xzwy"}}]}</script></head><body>
+<header><div class="wrap"><a class="logo" href="../">ЕГЭ информатика: разборы</a><a class="navbot" href="https://t.me/informtrainbot">Тренажёр в Telegram →</a></div></header>
+<main class="wrap"><div class="crumbs"><a href="../">Главная</a> / <a href="./">Задание 2</a> / задача 36</div>
+<h1>Задание 2 ЕГЭ по информатике: задача 36</h1>
+<p class="sub">Таблицы истинности · добавлено 2026-10-19</p>
+<div class="card"><p>Миша заполнял таблицу истинности логической функции F</p><p class=formula>F = ¬(¬z ∧ y) → (w → x)</p><p>но успел заполнить лишь фрагмент из трёх различных её строк, даже не указав, какому столбцу таблицы соответствует каждая из переменных x, y, z, w. Пустые клетки — значения, которые Миша не вписал.</p><div class="tt-wrap"><table class="tt"><tr><th>Перем. 1</th><th>Перем. 2</th><th>Перем. 3</th><th>Перем. 4</th><th>F</th></tr><tr><td></td><td>1</td><td></td><td>0</td><td>0</td></tr><tr><td></td><td></td><td></td><td>1</td><td>0</td></tr><tr><td>0</td><td>0</td><td></td><td></td><td>0</td></tr></table></div><p>Определите, какому столбцу таблицы соответствует каждая из переменных x, y, z, w.</p><p>В ответе напишите буквы x, y, z, w в том порядке, в котором идут соответствующие им столбцы (сначала буква, соответствующая первому столбцу; затем буква, соответствующая второму столбцу, и т. д.). Буквы в ответе пишите подряд, никаких разделителей между буквами ставить не нужно.</p></div>
+<h2>Проверь себя</h2>
+<div class="check"><input id="in36" data-a="eHp3eQ==" placeholder="Твой ответ" autocomplete="off"><button class="btn" onclick="chk(36)">Проверить</button></div><div id="res36" class="res"></div>
+<div class="cta"><p>Хочешь такие задачи каждый день? Тренажёр в Telegram даёт задачи №2 и других номеров, сразу проверяет ответ и показывает, где ты проседаешь.</p><a class="btn" href="https://t.me/informtrainbot">Открыть бота</a></div>
+<h2>Разбор</h2>
+<details><summary>Показать решение</summary>
+<ol class="steps"><li>Импликацию a → b в Python удобно писать как <code>a &lt;= b</code>: на нулях и единицах это ровно та же таблица (ложно только 1 → 0). Эквивалентность a ≡ b — это <code>a == b</code>. Отрицание — <code>not</code>. Каждую операцию берём в скобки, чтобы не думать о приоритетах.</li><li>Функция F = 0 на 3 наборах из 16 (порядок x y z w): 0001, 0011, 0111. Каждая строка фрагмента после заполнения пропусков обязана стать одним из этих наборов.</li><li>В таблице 7 пустых клеток, значит вариантов их заполнения 2<sup>7</sup> = 128. Для каждого варианта пробуем все 24 расстановки букв по столбцам — всего 3072 проверок, это мгновенно.</li><li>Важное условие — строки разные. Варианты заполнения, где две строки совпали, отбрасываем, иначе можно получить лишний ответ.</li><li>Подходит только одна расстановка: xzwy. Заполненные строки (значения по столбцам слева направо): 0110 — это x=0, y=0, z=1, w=1; 0111 — это x=0, y=1, z=1, w=1; 0010 — это x=0, y=0, z=0, w=1. На каждом из этих наборов F = 0.</li><li>Ответ: <b>xzwy</b>.</li></ol>
+<h2>Код решения на Python</h2>
+<pre><button class="copy" onclick="cp(this)">Копировать</button><code>from itertools import product, permutations
+
+
+def F(x, y, z, w):
+    return ((not ((not z) and y)) &lt;= (w &lt;= x))
+
+
+ans = set()
+for a, b, c, d, e, f, g in product([0, 1], repeat=7):
+    t = [(a, 1, b, 0), (c, d, e, 1), (0, 0, f, g)]
+    if len(set(t)) &lt; len(t):  # строки фрагмента должны быть разными
+        continue
+    for p in permutations(&#x27;xyzw&#x27;):
+        if all(F(**dict(zip(p, r))) == 0 for r in t):
+            ans.add(&#x27;&#x27;.join(p))
+print(*ans)
+</code></pre>
+<p>Программа печатает ответ, её можно вставить в любую IDE на экзамене как есть.</p>
+</details>
+<div class="pager"><a href="35.html">← Задача 35</a><a href="./">Все задачи №2</a><a href="37.html">Задача 37 →</a></div></main>
+<footer><div class="wrap">Задачи сгенерированы по образцу заданий ЕГЭ, ответы проверены запуском кода. Тренировка с проверкой и статистикой — в боте <a href="https://t.me/informtrainbot">@informtrainbot</a>.</div></footer>
+<script>
+function chk(id){var i=document.getElementById('in'+id),r=document.getElementById('res'+id);
+var n=function(s){return s.trim().split(/\n+/).map(function(l){return l.trim().split(/\s+/).join(' ')}).join('\n')};
+var a=decodeURIComponent(escape(atob(i.dataset.a)));
+if(n(i.value)===n(a)){r.textContent='Верно!';r.className='res ok'}else{r.textContent='Пока нет. Проверь разбор ниже.';r.className='res bad'}}
+function cp(b){var t=b.parentNode.querySelector('code').innerText;try{navigator.clipboard.writeText(t);b.textContent='Скопировано'}catch(e){}}
+</script></body></html>

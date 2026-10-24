@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Задание 2 ЕГЭ по информатике: таблицы истинности — теория, разборы и 45 задач с ответами</title><meta name="description" content="Как решать задание 2 ЕГЭ по информатике: идея, шаблон кода на Python, типичные ошибки и 45 задач с разборами и проверкой ответа.">
+<link rel="canonical" href="https://programmerprofi.github.io/1/zadanie-2/index.html"><meta property="og:title" content="Задание 2 ЕГЭ по информатике: таблицы истинности — теория, разборы и 45 задач с ответами"><meta property="og:description" content="Как решать задание 2 ЕГЭ по информатике: идея, шаблон кода на Python, типичные ошибки и 45 задач с разборами и проверкой ответа.">
+<meta property="og:type" content="article"><meta property="og:url" content="https://programmerprofi.github.io/1/zadanie-2/index.html"><meta property="og:locale" content="ru_RU">
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--muted:#6b675f;--line:#e4e0d8;--card:#ffffff;--accent:#2f5bd3;--accent-fg:#fff;--code:#f3f1ec;--ok:#1f7a45;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141413;--fg:#ecebe7;--muted:#a19d94;--line:#2c2b28;--card:#1c1c1a;--accent:#7a9bff;--accent-fg:#0d0d0c;--code:#22221f;--ok:#5fcf8c;--bad:#ff8a80}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.logo{font-weight:700;text-decoration:none;color:var(--fg)}
+.navbot{font-size:15px}
+h1{font-size:28px;line-height:1.25;margin:28px 0 8px}
+h2{font-size:21px;margin:32px 0 10px}
+.sub{color:var(--muted);margin:0 0 20px}
+.crumbs{font-size:14px;color:var(--muted);margin-top:18px}.crumbs a{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+pre,code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px}
+code{background:var(--code);padding:1px 5px;border-radius:5px}
+pre{position:relative;background:var(--code);padding:14px 16px;border-radius:10px;overflow-x:auto;line-height:1.5;margin:12px 0}
+pre code{background:none;padding:0;display:block}pre:has(.copy) code{padding-top:22px}
+.formula{font-family:Georgia,"Times New Roman",serif;font-size:18px;padding:6px 0 6px 14px;border-left:3px solid var(--line)}
+.cta{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:16px 20px;margin:28px 0}
+.cta p{margin:0;flex:1 1 300px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;padding:10px 18px;border-radius:9px;border:0;font-size:16px;cursor:pointer}
+.check{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.check input,.check textarea{flex:1 1 220px;font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.res{margin-top:10px;font-weight:600}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+details summary{cursor:pointer;font-weight:600}
+ol.steps li{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:16px 0}
+.grid a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--fg)}
+.grid a b{display:block;font-size:19px;color:var(--accent)}.grid a span{color:var(--muted);font-size:14px}
+ul.tasks{list-style:none;padding:0;margin:0}ul.tasks li{border-bottom:1px solid var(--line);padding:9px 0}
+ul.tasks small{color:var(--muted)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:24px 0;font-size:15px}
+footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:14px}footer .wrap{padding-top:18px;padding-bottom:28px}
+.tt-wrap{overflow-x:auto;margin:12px 0}table.tt{border-collapse:collapse}.tt th,.tt td{border:1px solid var(--line);padding:6px 12px;text-align:center;min-width:44px;height:36px}.tt th{font-size:14px;font-weight:600;color:var(--muted)}
+.copy{position:absolute;top:8px;right:8px;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
+</style></head><body>
+<header><div class="wrap"><a class="logo" href="../">ЕГЭ информатика: разборы</a><a class="navbot" href="https://t.me/informtrainbot">Тренажёр в Telegram →</a></div></header>
+<main class="wrap"><div class="crumbs"><a href="../">Главная</a> / задание 2</div>
+<h1>Задание 2 ЕГЭ по информатике</h1><p class="sub">Таблицы истинности</p>
+
+<h2>Что проверяет задание</h2>
+<p>Дана логическая функция F от переменных x, y, z, w и фрагмент её таблицы истинности: три разные строки, часть клеток пустая, а подписи столбцов не указаны. Нужно понять, какой переменной соответствует каждый столбец.</p>
+<h2>Как решать</h2>
+<p>Перебором. Пустые клетки заполняем всеми способами через <code>product</code>, буквы расставляем по столбцам через <code>permutations</code> и оставляем расстановку, при которой F на всех строках равна значению из таблицы.</p>
+<pre><code>from itertools import product, permutations
+
+def F(x, y, z, w):
+    return (w &lt;= x) &lt;= (z &lt;= y)     # F = (w → x) → (z → y)
+
+ans = set()
+for a, b, c, d, e, f, g in product([0, 1], repeat=7):   # буква на каждую пустую клетку
+    t = [(a, b, c, 1), (0, d, e, f), (1, 1, g, 0)]
+    if len(set(t)) &lt; len(t):                          # строки обязаны быть разными
+        continue
+    for p in permutations('xyzw'):
+        if all(F(**dict(zip(p, r))) == 0 for r in t):   # в столбце F стоят нули
+            ans.add(''.join(p))
+print(*ans)</code></pre>
+<h2>Операции в Python</h2>
+<ul>
+<li>Конъюнкция ∧ — <code>and</code>, дизъюнкция ∨ — <code>or</code>, отрицание ¬ — <code>not</code>.</li>
+<li>Импликация a → b — <code>a &lt;= b</code> или <code>(not a) or b</code>.</li>
+<li>Эквивалентность a ≡ b — <code>a == b</code>.</li>
+</ul>
+<h2>Где ошибаются</h2>
+<ul>
+<li>Не проверяют, что строки разные, и получают несколько ответов.</li>
+<li>Пишут импликации без скобок. <code>a &lt;= b &lt;= c</code> в Python — это цепочка сравнений, а не (a → b) → c. Каждую операцию берите в скобки.</li>
+<li>Сравнивают F с 1, когда в таблице столбец F заполнен нулями.</li>
+<li>Записывают в ответ порядок переменных, а не порядок столбцов.</li>
+</ul>
+<div class="cta"><p>Задачи №2 с мгновенной проверкой, статистикой и пробниками — в Telegram-тренажёре.</p><a class="btn" href="https://t.me/informtrainbot">Открыть бота</a></div>
+<h2>Задачи с разбором (45)</h2><p class="sub">Новые задачи добавляются каждый день.</p>
+<ul class="tasks"><li><a href="45.html">Задача 45</a> <small>— F = ((w ∧ (x → y)) ≡ y) → z, строки с F = 0</small></li><li><a href="44.html">Задача 44</a> <small>— F = ((¬w → ¬z) ≡ ¬x) ∨ y, строки с F = 0</small></li><li><a href="43.html">Задача 43</a> <small>— F = ((w → x) ≡ z) ∨ y, строки с F = 0</small></li><li><a href="42.html">Задача 42</a> <small>— F = ((x → w) → z) → y, строки с F = 0</small></li><li><a href="41.html">Задача 41</a> <small>— F = (x ∧ ¬y) → ¬(w → z), строки с F = 0</small></li><li><a href="40.html">Задача 40</a> <small>— F = ¬((y → z) → x) ∧ w, строки с F = 1</small></li><li><a href="39.html">Задача 39</a> <small>— F = z ∨ ¬(¬((x → w) ≡ y) ≡ z), строки с F = 0</small></li><li><a href="38.html">Задача 38</a> <small>— F = (y ≡ (x → w)) → (y ≡ z), строки с F = 0</small></li><li><a href="37.html">Задача 37</a> <small>— F = (¬(w → z) ≡ x) → ¬y, строки с F = 0</small></li><li><a href="36.html">Задача 36</a> <small>— F = ¬(¬z ∧ y) → (w → x), строки с F = 0</small></li><li><a href="35.html">Задача 35</a> <small>— F = (z ≡ (¬y ∨ x)) ∨ ¬w, строки с F = 0</small></li><li><a href="34.html">Задача 34</a> <small>— F = (¬(z ≡ (y ∧ x)) ≡ y) ∧ w, строки с F = 1</small></li><li><a href="33.html">Задача 33</a> <small>— F = x → ((z → w) → y), строки с F = 0</small></li><li><a href="32.html">Задача 32</a> <small>— F = y → ((z → x) ∧ (y → w)), строки с F = 0</small></li><li><a href="31.html">Задача 31</a> <small>— F = (x → w) → (z → y), строки с F = 0</small></li><li><a href="30.html">Задача 30</a> <small>— F = ¬y → (z → ¬(x → w)), строки с F = 0</small></li><li><a href="29.html">Задача 29</a> <small>— F = z → (x ≡ ((y ∧ ¬w) → w)), строки с F = 0</small></li><li><a href="28.html">Задача 28</a> <small>— F = ¬(y ≡ (w → x)) → z, строки с F = 0</small></li><li><a href="27.html">Задача 27</a> <small>— F = y → ((z → x) → w), строки с F = 0</small></li><li><a href="26.html">Задача 26</a> <small>— F = ¬(y → z) ∧ ¬(¬x ∧ w), строки с F = 1</small></li><li><a href="25.html">Задача 25</a> <small>— F = (¬w ∨ y) ∧ (¬z ∧ x), строки с F = 1</small></li><li><a href="24.html">Задача 24</a> <small>— F = y → ((w → z) → x), строки с F = 0</small></li><li><a href="23.html">Задача 23</a> <small>— F = ((z ∧ ¬w) ≡ y) → x, строки с F = 0</small></li><li><a href="22.html">Задача 22</a> <small>— F = (z ≡ (w ∨ ¬x)) → ¬y, строки с F = 0</small></li><li><a href="21.html">Задача 21</a> <small>— F = (w → x) ∧ (¬z ∧ y), строки с F = 1</small></li><li><a href="20.html">Задача 20</a> <small>— F = (x → w) → (z → y), строки с F = 0</small></li><li><a href="19.html">Задача 19</a> <small>— F = ¬(z ∨ ¬y) ∧ (x → w), строки с F = 1</small></li><li><a href="18.html">Задача 18</a> <small>— F = (z → y) → (x → w), строки с F = 0</small></li><li><a href="17.html">Задача 17</a> <small>— F = (z ∨ ¬y) → (w → x), строки с F = 0</small></li><li><a href="16.html">Задача 16</a> <small>— F = ¬(y → (¬w ∧ z)) → x, строки с F = 0</small></li><li><a href="15.html">Задача 15</a> <small>— F = ¬((¬y ≡ w) → z) → ¬(¬y → x), строки с F = 0</small></li><li><a href="14.html">Задача 14</a> <small>— F = w → (y ∨ ¬(¬x ∨ z)), строки с F = 0</small></li><li><a href="13.html">Задача 13</a> <small>— F = ¬(w ≡ x) ∧ ¬(¬(y ∧ x) → z), строки с F = 1</small></li><li><a href="12.html">Задача 12</a> <small>— F = y → ((z ∨ ¬x) ≡ w), строки с F = 0</small></li><li><a href="11.html">Задача 11</a> <small>— F = ¬(z → y) → ¬(w → x), строки с F = 0</small></li><li><a href="10.html">Задача 10</a> <small>— F = z → (¬x ≡ ¬(w ∨ ¬y)), строки с F = 0</small></li><li><a href="9.html">Задача 9</a> <small>— F = z ≡ ¬(¬((y → x) ≡ w) → z), строки с F = 1</small></li><li><a href="8.html">Задача 8</a> <small>— F = ((¬x ∨ w) ≡ z) → y, строки с F = 0</small></li><li><a href="7.html">Задача 7</a> <small>— F = ¬x ∧ ((z → w) ≡ y), строки с F = 1</small></li><li><a href="6.html">Задача 6</a> <small>— F = (w ∧ (z ∨ ¬x)) → y, строки с F = 0</small></li><li><a href="5.html">Задача 5</a> <small>— F = (¬x → z) ≡ ¬(x ∨ (¬w ∨ y)), строки с F = 1</small></li><li><a href="4.html">Задача 4</a> <small>— F = (y ≡ ¬(w → x)) → ¬z, строки с F = 0</small></li><li><a href="3.html">Задача 3</a> <small>— F = (w → x) → (z → y), строки с F = 0</small></li><li><a href="2.html">Задача 2</a> <small>— F = (z ∧ ¬(¬y → (¬w ∧ x))) → y, строки с F = 0</small></li><li><a href="1.html">Задача 1</a> <small>— F = (y ∧ ((z ≡ y) → w)) ∧ ¬x, строки с F = 1</small></li></ul></main>
+<footer><div class="wrap">Задачи сгенерированы по образцу заданий ЕГЭ, ответы проверены запуском кода. Тренировка с проверкой и статистикой — в боте <a href="https://t.me/informtrainbot">@informtrainbot</a>.</div></footer>
+<script>
+function chk(id){var i=document.getElementById('in'+id),r=document.getElementById('res'+id);
+var n=function(s){return s.trim().split(/\n+/).map(function(l){return l.trim().split(/\s+/).join(' ')}).join('\n')};
+var a=decodeURIComponent(escape(atob(i.dataset.a)));
+if(n(i.value)===n(a)){r.textContent='Верно!';r.className='res ok'}else{r.textContent='Пока нет. Проверь разбор ниже.';r.className='res bad'}}
+function cp(b){var t=b.parentNode.querySelector('code').innerText;try{navigator.clipboard.writeText(t);b.textContent='Скопировано'}catch(e){}}
+</script></body></html>

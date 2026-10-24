@@ -22,6 +22,179 @@ def H(s):
     return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+# ---------------------------------------------------------------- №2
+_VARS = "xyzw"
+_OPS = {"and": ("∧", "and"), "or": ("∨", "or"), "imp": ("→", "<="), "eq": ("≡", "==")}
+
+
+def _rand_tree(rng, leaves):
+    if len(leaves) == 1:
+        node = ("var", leaves[0])
+    else:
+        k = rng.randint(1, len(leaves) - 1)
+        node = (rng.choice(["and", "or", "imp", "eq", "imp", "eq"]),
+                _rand_tree(rng, leaves[:k]), _rand_tree(rng, leaves[k:]))
+    if rng.random() < 0.25:
+        node = ("not", node)
+    return node
+
+
+def _ev(node, env):
+    t = node[0]
+    if t == "var":
+        return env[node[1]]
+    if t == "not":
+        return 1 - _ev(node[1], env)
+    a, b = _ev(node[1], env), _ev(node[2], env)
+    if t == "and":
+        return a & b
+    if t == "or":
+        return a | b
+    if t == "imp":
+        return int(a == 0 or b == 1)
+    return int(a == b)
+
+
+def _txt(node, top=True):
+    t = node[0]
+    if t == "var":
+        return node[1]
+    if t == "not":
+        inner = node[1]
+        return "¬" + (_txt(inner, False) if inner[0] in ("var", "not") else "(" + _txt(inner, True) + ")")
+    s = _txt(node[1], False) + " " + _OPS[t][0] + " " + _txt(node[2], False)
+    return s if top else "(" + s + ")"
+
+
+def _py(node):
+    t = node[0]
+    if t == "var":
+        return node[1]
+    if t == "not":
+        return "(not " + _py(node[1]) + ")"
+    return "(" + _py(node[1]) + " " + _OPS[t][1] + " " + _py(node[2]) + ")"
+
+
+def _perms_fitting(rows, sat):
+    """Все расстановки переменных по столбцам, при которых строки фрагмента можно
+    дополнить до различных наборов из sat. Считается через сопоставление строк
+    с готовым списком наборов, а не перебором пропусков."""
+    res = []
+    for p in itertools.permutations(_VARS):
+        cand = []
+        for r in rows:
+            c = [s for s in sat if all(v is None or s[_VARS.index(p[i])] == v for i, v in enumerate(r))]
+            cand.append(c)
+        if any(not c for c in cand):
+            continue
+        if any(len(set(choice)) == len(choice) for choice in itertools.product(*cand)):
+            res.append("".join(p))
+    return res
+
+
+def gen_2(rng):
+    for _ in range(200):
+        leaves = list(_VARS)
+        rng.shuffle(leaves)
+        if rng.random() < 0.3:
+            leaves.insert(rng.randint(0, 4), rng.choice(_VARS))
+        tree = _rand_tree(rng, leaves)
+        if tree[0] == "not":
+            tree = tree[1]
+        allsets = list(itertools.product([0, 1], repeat=4))
+        target = rng.choice([0, 1])
+        sat = [s for s in allsets if _ev(tree, dict(zip(_VARS, s))) == target]
+        if not 3 <= len(sat) <= 7:
+            continue
+        perm = list(_VARS)
+        rng.shuffle(perm)
+        perm = "".join(perm)
+        chosen = rng.sample(sat, 3)
+        # строка фрагмента: значение в столбце i = значение переменной perm[i]
+        rows = [[s[_VARS.index(perm[i])] for i in range(4)] for s in chosen]
+        if _perms_fitting(rows, sat) != [perm]:
+            continue
+        cells = [(r, c) for r in range(3) for c in range(4)]
+        rng.shuffle(cells)
+        want = rng.randint(5, 8)
+        blanks = 0
+        for r, c in cells:
+            if blanks >= want:
+                break
+            old = rows[r][c]
+            rows[r][c] = None
+            if _perms_fitting(rows, sat) == [perm]:
+                blanks += 1
+            else:
+                rows[r][c] = old
+        if blanks >= 4:
+            break
+    else:
+        return None
+
+    ftxt = _txt(tree)
+    fpy = _py(tree)
+    th = "".join("<th>Перем. %d</th>" % (i + 1) for i in range(4)) + "<th>F</th>"
+    tr = "".join("<tr>" + "".join("<td>%s</td>" % ("" if v is None else v) for v in r) + f"<td>{target}</td></tr>"
+                 for r in rows)
+    table = f'<div class="tt-wrap"><table class="tt"><tr>{th}</tr>{tr}</table></div>'
+    statement = (
+        "<p>Миша заполнял таблицу истинности логической функции F</p>"
+        f"<p class=formula>F = {H(ftxt)}</p>"
+        "<p>но успел заполнить лишь фрагмент из трёх различных её строк, даже не указав, какому столбцу таблицы "
+        "соответствует каждая из переменных x, y, z, w. Пустые клетки — значения, которые Миша не вписал.</p>"
+        f"{table}"
+        "<p>Определите, какому столбцу таблицы соответствует каждая из переменных x, y, z, w.</p>"
+        "<p>В ответе напишите буквы x, y, z, w в том порядке, в котором идут соответствующие им столбцы "
+        "(сначала буква, соответствующая первому столбцу; затем буква, соответствующая второму столбцу, и т. д.). "
+        "Буквы в ответе пишите подряд, никаких разделителей между буквами ставить не нужно.</p>")
+
+    names = "abcdefgh"
+    k = 0
+    trow = []
+    for r in rows:
+        parts = []
+        for v in r:
+            if v is None:
+                parts.append(names[k])
+                k += 1
+            else:
+                parts.append(str(v))
+        trow.append("(" + ", ".join(parts) + ")")
+    unpack = ", ".join(names[:k])
+    code = ("from itertools import product, permutations\n\n\n"
+            f"def F(x, y, z, w):\n    return {fpy}\n\n\n"
+            "ans = set()\n"
+            f"for {unpack} in product([0, 1], repeat={k}):\n"
+            f"    t = [{', '.join(trow)}]\n"
+            "    if len(set(t)) < len(t):  # строки фрагмента должны быть разными\n"
+            "        continue\n"
+            "    for p in permutations('xyzw'):\n"
+            f"        if all(F(**dict(zip(p, r))) == {target} for r in t):\n"
+            "            ans.add(''.join(p))\n"
+            "print(*ans)\n")
+
+    sat_txt = ", ".join("".join(map(str, s)) for s in sat)
+    filled = []
+    for s in chosen:
+        filled.append("".join(str(s[_VARS.index(perm[i])]) for i in range(4)) + f" — это x={s[0]}, y={s[1]}, z={s[2]}, w={s[3]}")
+    steps = [
+        "Импликацию a → b в Python удобно писать как <code>a &lt;= b</code>: на нулях и единицах это ровно та же таблица "
+        "(ложно только 1 → 0). Эквивалентность a ≡ b — это <code>a == b</code>. Отрицание — <code>not</code>. "
+        "Каждую операцию берём в скобки, чтобы не думать о приоритетах.",
+        f"Функция F = {target} на {len(sat)} наборах из 16 (порядок x y z w): {sat_txt}. "
+        "Каждая строка фрагмента после заполнения пропусков обязана стать одним из этих наборов.",
+        f"В таблице {k} пустых клеток, значит вариантов их заполнения 2<sup>{k}</sup> = {2**k}. "
+        f"Для каждого варианта пробуем все 24 расстановки букв по столбцам — всего {2**k * 24} проверок, это мгновенно.",
+        "Важное условие — строки разные. Варианты заполнения, где две строки совпали, отбрасываем, иначе можно получить лишний ответ.",
+        f"Подходит только одна расстановка: {perm}. Заполненные строки (значения по столбцам слева направо): " + "; ".join(filled) + ". "
+        f"На каждом из этих наборов F = {target}.",
+        f"Ответ: <b>{perm}</b>.",
+    ]
+    return dict(statement=statement, steps=steps, code=code, answer=perm,
+                title=f"F = {ftxt}, строки с F = {target}")
+
+
 # ---------------------------------------------------------------- №5
 def gen_5(rng):
     kind = rng.choice(["parity_n", "ones_twice", "div3"])
@@ -755,6 +928,7 @@ def gen_25(rng):
 
 
 GENERATORS = {
+    2: (gen_2, "Таблицы истинности"),
     5: (gen_5, "Анализ алгоритма: двоичная запись"),
     7: (gen_7, "Кодирование изображений и звука"),
     8: (gen_8, "Комбинаторика: перебор слов"),

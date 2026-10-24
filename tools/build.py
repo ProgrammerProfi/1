@@ -111,6 +111,7 @@ ul.tasks{list-style:none;padding:0;margin:0}ul.tasks li{border-bottom:1px solid 
 ul.tasks small{color:var(--muted)}
 .pager{display:flex;justify-content:space-between;gap:12px;margin:24px 0;font-size:15px}
 footer{border-top:1px solid var(--line);margin-top:48px;color:var(--muted);font-size:14px}footer .wrap{padding-top:18px;padding-bottom:28px}
+.tt-wrap{overflow-x:auto;margin:12px 0}table.tt{border-collapse:collapse}.tt th,.tt td{border:1px solid var(--line);padding:6px 12px;text-align:center;min-width:44px;height:36px}.tt th{font-size:14px;font-weight:600;color:var(--muted)}
 .copy{position:absolute;top:8px;right:8px;font-size:13px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
 """
 
@@ -224,7 +225,7 @@ def index_page(all_tasks):
 <h2>Как устроен сайт</h2>
 <p>Каждая задача сгенерирована программой по образцу реального задания ЕГЭ. Ответ считается двумя независимыми способами: генератором и кодом из разбора. Если они не совпали, задача на сайт не попадает.</p>"""
     title = "ЕГЭ по информатике: разборы заданий с решениями на Python"
-    desc = f"{total} задач ЕГЭ по информатике с пошаговыми разборами, кодом на Python и проверкой ответа. Задания 5, 7, 8, 11–16, 23, 25."
+    desc = f"{total} задач ЕГЭ по информатике с пошаговыми разборами, кодом на Python и проверкой ответа. Задания 2, 5, 7, 8, 11–16, 23, 25."
     return "index.html", page(title, desc, "index.html", body,
                               {"@context": "https://schema.org", "@type": "WebSite", "name": title, "url": BASE, "inLanguage": "ru"})
 
